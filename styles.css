@@ -1,0 +1,176 @@
+:root {
+    --done-color: #799EC0;
+    --ongoing-color: #62A97A;
+    --danger-color: #C56464;
+    --disabled-color: #8A858F;
+    --highlight-color: #A179C0;
+}
+
+body {
+    font-family: "Onest";
+    margin: 0;
+    background-color: #282A36;
+    padding: 3rem 30rem;
+}
+
+h1 {
+    text-align: center;
+    color: white;
+    font-size: 400%
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    display: flex;
+    align-items: center;
+    margin: 1rem 0rem;
+    border-radius: 0.5rem;
+    display: flex;
+    background-color: white;
+    justify-content:space-between;
+    transition: all 0.2S ease-in-out;
+}
+
+
+.status-label {
+    width: 10px;
+    height: 60px;
+    border-radius: 0.5rem 0 0 0.5rem;
+    background-color: var(--ongoing-color);
+}
+
+.todo-content {
+    margin-left: 0.5rem;
+    align-self: center;
+}
+
+li.completed > .left-content .todo-content {
+    text-decoration: line-through;
+}
+
+li.completed > .left-content .status-label {
+    background-color: var(--done-color);
+}
+
+li.completed {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.modal-content {
+    background-color: #D9D9D9;
+    width: 300px;
+    margin: 100px auto;
+    padding: 4rem 3rem 2rem 3rem;
+    border-radius: 0.7rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+input {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    border-radius: 0.5rem;
+    border:0;
+    margin-bottom: 1rem
+}
+
+.close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0.5rem;
+    cursor: pointer;
+}
+
+.flex {
+    display: flex;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+button {
+    border: 0;
+    outline: none;
+    border-radius: 0.4rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.1s ease-in-out;
+}
+
+button:hover {
+    opacity: 80%;
+}
+
+.rectangle-button {
+    padding: 0.5rem 1rem
+}
+
+.square-button {
+    padding: 0.5rem;
+    margin:0 0.1rem;
+}
+
+.button-combo {
+    margin-right: 0.5rem;
+}
+
+.bg-white {
+    background-color: white;
+}
+
+.bg-indigo {
+    background-color: var(--highlight-color);
+}
+
+.bg-done {
+    background-color: var(--done-color);
+}
+
+.bg-ongoing {
+    background-color: var(--ongoing-color);
+}
+
+.bg-gray {
+    background-color: var(--disabled-color);
+}
+
+.bg-danger {
+    background-color: var(--danger-color);
+}
+
+.text-white {
+    color: white
+}
+
+.font-bold {
+    font-weight: 600;
+}
+
+.svg-icon {
+    height: 1.4rem;
+    padding: 0.2rem 0.2rem 0rem 0.2rem
+}
+
+.filter-button.active-filter {
+    background-color: #007bff;
+    color: white;
+}

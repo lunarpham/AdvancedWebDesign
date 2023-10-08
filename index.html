@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Onest:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Todo App</title>
+</head>
+<body>
+    <h1>Todos</h1>
+
+    <div class="flex justify-between">
+        <!--Filter-->
+        <div id="filterButtons">
+            <span class="text-white">Show</span>
+            <button id="showAll" class="rectangle-button text-white font-bold bg-gray">All</button>
+            <button id="showOngoing" class="rectangle-button text-white font-bold bg-ongoing">Ongoing</button>
+            <button id="showCompleted" class="rectangle-button text-white font-bold bg-done">Done</button>
+        </div>
+
+        <!--Add todo button-->
+        <button id="addTodoButton" class="bg-indigo text-white font-bold rectangle-button">Add Todo</button>
+    </div>
+
+    <!--Todo list-->
+    <ul id="todoList"></ul>
+
+
+    
+    <!-- Add Todo Modal, appear when clicking "add todo"-->
+    <div id="addTodoModal" class="modal">
+        <div class="modal-content">
+            <span class="close"><img src="icons/close.svg" alt="close" class="svg-icon"></span>
+            <input type="text" id="todoInput" placeholder="Todo title...">
+            <button id="addTodo" class="bg-indigo text-white font-bold rectangle-button" style="font-size: 1rem; width: fit-content">Add</button>
+        </div>
+    </div>
+
+    <!-- Edit Todo Modal, appear when clicking "edit" button in every task-->
+    <div id="editTodoModal" class="modal">
+        <div class="modal-content">
+            <span class="close"><img src="icons/close.svg" alt="close" class="svg-icon"></span><!--XClose button-->
+            <input type="text" id="editTodoInput" placeholder="Edit todo">
+            <button id="saveTodo" class="bg-indigo text-white font-bold rectangle-button" style="font-size: 1rem; width: fit-content">Save</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
