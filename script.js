@@ -10,6 +10,13 @@ const showAllButton = document.getElementById('showAll');
 const showOngoingButton = document.getElementById('showOngoing');
 const showCompletedButton = document.getElementById('showCompleted');
 
+// Load tasks from local storage when the page loads
+document.addEventListener('DOMContentLoaded', () => {
+    const savedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    savedTasks.forEach(taskData => {
+        addTaskToList(taskData.text, taskData.completed);
+    });
+});
 
 // Add Todo button click event
 addTodoButton.addEventListener('click', () => {
@@ -28,23 +35,9 @@ document.querySelectorAll('.close').forEach(closeBtn => {
 addTodo.addEventListener('click', () => {
     const todoText = todoInput.value.trim();
     if (todoText !== '') {
-        const li = document.createElement('li');
-        li.innerHTML = `
-        <div class="left-content flex">
-            <div class="status-label"></div>
-            <span class="todo-content text-center">${todoText}</span>
-        </div>
-        
-        <div class="button-combo">
-            <button class="edit bg-gray text-white square-button font-bold"><img src="icons/edit.svg" alt="edit" class="svg-icon"></button>
-            <button class="check bg-done text-white square-button font-bold"><img src="icons/check.svg" alt="check" class="svg-icon"></button>
-            <button class="delete bg-danger text-white square-button font-bold"><img src="icons/delete.svg" alt="delete" class="svg-icon"></button>
-        </div>
-        `;
-        todoList.appendChild(li);
+        addTaskToList(todoText, false); // New tasks are marked as not completed
         todoInput.value = '';
         addTodoModal.style.display = 'none';
-        addEventListeners(li);
     }
 });
 
@@ -56,16 +49,17 @@ function editTodo() {
         listItem.querySelector('span').textContent = todoText;
         listItem.classList.remove('editing');
         editTodoModal.style.display = 'none';
+        saveTasksToLocalStorage();
     }
 }
-
 
 // Delete Todo
 function deleteTodo() {
     this.parentNode.remove();
+    saveTasksToLocalStorage();
 }
 
-let currentEditingTask = null; // Variable to keep track of the task being edited
+let currentEditingTask = null; // Keep track of the task being edited
 
 // Add event listeners to edit, check, and delete buttons
 function addEventListeners(li) {
@@ -82,14 +76,16 @@ function addEventListeners(li) {
     checkButton.addEventListener('click', function () {
         const listItem = this.closest('li');
         listItem.classList.toggle('completed');
+        saveTasksToLocalStorage();
     });
 
     deleteButton.addEventListener('click', () => {
         li.remove();
+        saveTasksToLocalStorage();
     });
 }
 
-// Set up the Save button click event within the edit modal
+// Save button click event in the edit popup modal
 const saveButton = editTodoModal.querySelector('#saveTodo');
 saveButton.addEventListener('click', () => {
     if (currentEditingTask) {
@@ -99,11 +95,12 @@ saveButton.addEventListener('click', () => {
             editTodoInput.value = ''; // Clear the input field
             editTodoModal.style.display = 'none';
             currentEditingTask = null; // Reset the current editing task
+            saveTasksToLocalStorage();
         }
     }
 });
 
-// Filter tasks based on the selected filter
+// Filter todos
 function filterTasks(filter) {
     const tasks = document.querySelectorAll('li');
     tasks.forEach(task => {
@@ -132,6 +129,34 @@ showCompletedButton.addEventListener('click', () => {
     filterTasks('showCompleted');
 });
 
+// Function to add a task to the list
+function addTaskToList(taskText, completed) {
+    const li = document.createElement('li');
+    li.innerHTML = `
+        <div class="left-content flex">
+            <div class="status-label"></div>
+            <span class="todo-content text-center">${taskText}</span>
+        </div>
+        
+        <div class="button-combo">
+            <button class="edit bg-gray text-white square-button font-bold"><img src="icons/edit.svg" alt="edit" class="svg-icon"></button>
+            <button class="check bg-done text-white square-button font-bold"><img src="icons/check.svg" alt="check" class="svg-icon"></button>
+            <button class="delete bg-danger text-white square-button font-bold"><img src="icons/delete.svg" alt="delete" class="svg-icon"></button>
+        </div>
+    `;
+    if (completed) {
+        li.classList.add('completed');
+    }
+    todoList.appendChild(li);
+    addEventListeners(li);
+    saveTasksToLocalStorage();
+}
 
-// Initialize event listeners for existing todos
-document.querySelectorAll('li').forEach(addEventListeners);
+// Function to save tasks to local storage
+function saveTasksToLocalStorage() {
+    const tasks = Array.from(document.querySelectorAll('li')).map(li => ({
+        text: li.querySelector('.todo-content').textContent,
+        completed: li.classList.contains('completed')
+    }));
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+}
