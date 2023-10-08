@@ -18,10 +18,60 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+// Function to save tasks to local storage
+function saveTasksToLocalStorage() {
+    const tasks = [];
+
+    // Select all the task items on the page
+    const taskItems = Array.from(document.querySelectorAll('li'));
+
+    taskItems.forEach(taskItem => {
+        const text = taskItem.querySelector('.todo-content').textContent;
+        const completed = taskItem.classList.contains('completed');
+
+        tasks.push({ text, completed });
+    });
+
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+
 // Add Todo button click event
 addTodoButton.addEventListener('click', () => {
     addTodoModal.style.display = 'block';
 });
+
+// Add Todo
+addTodo.addEventListener('click', () => {
+    const todoText = todoInput.value.trim();
+    if (todoText !== '') {   // In case input is not empty
+        addTaskToList(todoText, false); // New tasks are marked as not completed
+        todoInput.value = '';
+        addTodoModal.style.display = 'none'; // Close modal when click 
+    }
+});
+
+// Function to add a task to the list
+function addTaskToList(taskText, completed) {
+    const li = document.createElement('li');
+    li.innerHTML = `
+        <div class="left-content flex">
+            <div class="status-label"></div>
+            <span class="todo-content text-center">${taskText}</span>
+        </div>
+        
+        <div class="button-combo">
+            <button class="edit bg-gray text-white square-button font-bold"><img src="icons/edit.svg" alt="edit" class="svg-icon"></button>
+            <button class="check bg-done text-white square-button font-bold"><img src="icons/check.svg" alt="check" class="svg-icon"></button>
+            <button class="delete bg-danger text-white square-button font-bold"><img src="icons/delete.svg" alt="delete" class="svg-icon"></button>
+        </div>
+    `;
+    if (completed) {
+        li.classList.add('completed');
+    }
+    todoList.appendChild(li);
+    addEventListeners(li);
+    saveTasksToLocalStorage();
+}
 
 // Close modal buttons
 document.querySelectorAll('.close').forEach(closeBtn => {
@@ -31,33 +81,6 @@ document.querySelectorAll('.close').forEach(closeBtn => {
     });
 });
 
-// Add Todo
-addTodo.addEventListener('click', () => {
-    const todoText = todoInput.value.trim();
-    if (todoText !== '') {
-        addTaskToList(todoText, false); // New tasks are marked as not completed
-        todoInput.value = '';
-        addTodoModal.style.display = 'none';
-    }
-});
-
-// Edit Todo
-function editTodo() {
-    const todoText = editTodoInput.value.trim();
-    if (todoText !== '') {
-        const listItem = this.parentNode;
-        listItem.querySelector('span').textContent = todoText;
-        listItem.classList.remove('editing');
-        editTodoModal.style.display = 'none';
-        saveTasksToLocalStorage();
-    }
-}
-
-// Delete Todo
-function deleteTodo() {
-    this.parentNode.remove();
-    saveTasksToLocalStorage();
-}
 
 let currentEditingTask = null; // Keep track of the task being edited
 
@@ -128,35 +151,3 @@ showOngoingButton.addEventListener('click', () => {
 showCompletedButton.addEventListener('click', () => {
     filterTasks('showCompleted');
 });
-
-// Function to add a task to the list
-function addTaskToList(taskText, completed) {
-    const li = document.createElement('li');
-    li.innerHTML = `
-        <div class="left-content flex">
-            <div class="status-label"></div>
-            <span class="todo-content text-center">${taskText}</span>
-        </div>
-        
-        <div class="button-combo">
-            <button class="edit bg-gray text-white square-button font-bold"><img src="icons/edit.svg" alt="edit" class="svg-icon"></button>
-            <button class="check bg-done text-white square-button font-bold"><img src="icons/check.svg" alt="check" class="svg-icon"></button>
-            <button class="delete bg-danger text-white square-button font-bold"><img src="icons/delete.svg" alt="delete" class="svg-icon"></button>
-        </div>
-    `;
-    if (completed) {
-        li.classList.add('completed');
-    }
-    todoList.appendChild(li);
-    addEventListeners(li);
-    saveTasksToLocalStorage();
-}
-
-// Function to save tasks to local storage
-function saveTasksToLocalStorage() {
-    const tasks = Array.from(document.querySelectorAll('li')).map(li => ({
-        text: li.querySelector('.todo-content').textContent,
-        completed: li.classList.contains('completed')
-    }));
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-}
