@@ -10,7 +10,7 @@ const showAllButton = document.getElementById('showAll');
 const showOngoingButton = document.getElementById('showOngoing');
 const showCompletedButton = document.getElementById('showCompleted');
 
-const API_BASE_URL = 'https://b5241578-0511-44d5-84f1-2b6038167b57.mock.pstmn.io'; // Replace with your API URL
+const API_BASE_URL = 'https://b5241578-0511-44d5-84f1-2b6038167b57.mock.pstmn.io';
 
 // Load tasks from the API when the page loads
 document.addEventListener('DOMContentLoaded', () => {
