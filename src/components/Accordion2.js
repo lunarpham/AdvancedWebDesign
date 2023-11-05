@@ -1,35 +1,39 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import fetchAccordionData from '../apis/CallAPI';
 
-function AccordionItem({ title, isOpen, onClick }) {
+function AccordionItem({ title, content, isOpen, onClick }) {
   return (
     <div className={`accordion-item ${isOpen ? 'open' : ''}`} onClick={onClick}>
       <div className="accordion-title">{title}</div>
-      {isOpen && <div className="accordion-content">Accordion Content</div>}
+      {isOpen && <div className="accordion-content">{content}</div>}
     </div>
   );
 }
 
 function AccordionContainer2() {
-  const [accordion2, setAccordion2] = useState([
-    { title: 'Item A', isOpen: false },
-    { title: 'Item B', isOpen: false },
-    { title: 'Item C', isOpen: false },
-  ]);
+  const [accordionData, setAccordionData] = useState([]);
+
+  useEffect(() => {
+    fetchAccordionData().then((data) => {
+      setAccordionData(data);
+    });
+  }, []);
 
   const handleItemToggle = (index) => {
-    const updatedAccordion = accordion2.map((item, i) => ({
+    const updatedAccordion = accordionData.map((item, i) => ({
       ...item,
       isOpen: i === index ? !item.isOpen : false,
     }));
-    setAccordion2(updatedAccordion);
+    setAccordionData(updatedAccordion);
   };
 
   return (
     <div className="accordion-container">
-      {accordion2.map((item, index) => (
+      {accordionData.map((item, index) => (
         <AccordionItem
           key={index}
           title={item.title}
+          content={item.content}
           isOpen={item.isOpen}
           onClick={() => handleItemToggle(index)}
         />

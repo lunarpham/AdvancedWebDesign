@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import fetchAccordionData from '../apis/CallAPI';
 
-function AccordionItem({ title }) {
+function AccordionItem({ title, content }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleToggle = () => {
@@ -10,22 +11,24 @@ function AccordionItem({ title }) {
   return (
     <div className={`accordion-item ${isOpen ? 'open' : ''}`} onClick={handleToggle}>
       <div className="accordion-title">{title}</div>
-      {isOpen && <div className="accordion-content">Accordion Content</div>}
+      {isOpen && <div className="accordion-content">{content}</div>}
     </div>
   );
 }
 
 function AccordionContainer1() {
-  const accordion1 = [
-    { title: 'Item 1' },
-    { title: 'Item 2' },
-    { title: 'Item 3' },
-  ];
+  const [accordionData, setAccordionData] = useState([]);
+
+  useEffect(() => {
+    fetchAccordionData().then((data) => {
+      setAccordionData(data);
+    });
+  }, []);
 
   return (
     <div className="accordion-container">
-      {accordion1.map((item, index) => (
-        <AccordionItem key={index} title={item.title} />
+      {accordionData.map((item, index) => (
+        <AccordionItem key={index} title={item.title} content={item.content} />
       ))}
     </div>
   );
