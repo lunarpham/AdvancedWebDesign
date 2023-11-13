@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+.navbar {
+    grid-area: navbar;
+    background-color:floralwhite;
+}
+
+.sidebar {
+    grid-area: sidebar;
+    background-color: aqua;
+}
+
+.main {
+    grid-area: main;
+    background-color: aquamarine;
+}
+
+.content1 {
+    grid-area: content1;
+    background-color: azure;
+}
+
+.content2 {
+    grid-area: content2;
+    background-color: beige;
+}
+
+.content3 {
+    grid-area: content3;
+    background-color: bisque;
+}
+
+.footer {
+    grid-area: footer; 
+    background-color: cadetblue;
+}
+
+* {
+    font-family: sans-serif;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-areas:
+  'navbar navbar navbar navbar'
+  'sidebar main main main'
+  'sidebar content1 content2 content3'
+  'sidebar footer footer footer';
+  grid-gap: 10px;
+  padding: 10px;
+}
+
+@media only screen and (max-width: 768px) {
+    .grid-container {
+        grid-template-areas:
+        'navbar'
+        'sidebar'
+        'main'
+        'content1'
+        'content2'
+        'content3'
+        'footer'
+        ;
+    }
+}
+
+.grid-container > div {
+  text-align: center;
+  padding: 2rem 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #353535;
+}
+</style>
+</head>
+<body>
+<div class="grid-container">
+  <div class="navbar">Navbar</div>
+  <div class="sidebar">Sidebar</div>
+  <div class="main">Main</div>  
+  <div class="content1">Content 1</div>
+  <div class="content2">Content 2</div>
+  <div class="content3">Content 3</div>
+  <div class="footer">Footer</div>
+</div>
+
+</body>
+</html>
